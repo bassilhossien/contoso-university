@@ -52,4 +52,4 @@ jobs:
           app-name: 'contoso-api'
           slot-name: 'Production'
           package: .
-          publish-profile: ${{ secrets.__publishingprofilesecretname__ }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_48DADFF254154CAB83236BB7E6B21C53 }}
