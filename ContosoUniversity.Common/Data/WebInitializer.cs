@@ -20,14 +20,14 @@ namespace ContosoUniversity.Common.Data
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly AdminIdentityOptions _adminIdentityUser;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
         public WebInitializer(WebContext webContext,
             ILoggerFactory loggerFactory,
             IOptions<SampleData> dataOptions,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
-            IOptions<AdminIdentityOptions> adminIdentityOptions, IHostingEnvironment env)
+            IOptions<AdminIdentityOptions> adminIdentityOptions, IWebHostEnvironment env)
         {
             _webContext = webContext;
             _logger = loggerFactory.CreateLogger("DbInitializer");

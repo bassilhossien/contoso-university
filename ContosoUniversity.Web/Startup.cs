@@ -9,19 +9,20 @@ using ContosoUniversity.Web.Helpers;
 using ContosoUniversity.Common.Data;
 using ContosoUniversity.Common.Interfaces;
 using AutoMapper;
+using Microsoft.Extensions.Hosting;
 
 namespace ContosoUniversity
 {
     public class Startup
     {
-        public Startup(IHostingEnvironment env, IConfiguration config)
+        public Startup(IWebHostEnvironment env, IConfiguration config)
         {
             CurrentEnvironment = env;
             Configuration = config;
         }
 
         public IConfiguration Configuration { get; }
-        public IHostingEnvironment CurrentEnvironment { get; }
+        public IWebHostEnvironment CurrentEnvironment { get; }
 
         public void ConfigureServices(IServiceCollection services)
         {
@@ -39,6 +40,8 @@ namespace ContosoUniversity
             services.AddScoped<IModelBindingHelperAdaptor, DefaultModelBindingHelaperAdaptor>();
             services.AddScoped<IUrlHelperAdaptor, UrlHelperAdaptor>();
             services.AddSingleton<IConfiguration>(Configuration);
+            services.AddControllersWithViews();
+
 
             // Call to change httpsport or redirect status code.
             // services.AddHttpsRedirection(options =>
@@ -49,7 +52,7 @@ namespace ContosoUniversity
         }
 
         public void Configure(IApplicationBuilder app,
-            IHostingEnvironment env,
+            IWebHostEnvironment env,
             ILoggerFactory loggerFactory,
             IDbInitializer dbInitializer)
         {
@@ -75,7 +78,18 @@ namespace ContosoUniversity
 
             app.UseStaticFiles();
             app.UseAuthentication();
-            app.UseMvcWithDefaultRoute();
+            // app.UseMvcWithDefaultRoute();
+            app.UseRouting();
+
+            app.UseAuthorization(); // Optional: only if using authorization
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Home}/{action=Index}/{id?}");
+            });
+
         }
     }
 }

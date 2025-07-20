@@ -7,18 +7,20 @@ using Microsoft.AspNetCore.Rewrite;
 using ContosoUniversity.Common;
 using ContosoUniversity.Common.Data;
 using ContosoUniversity.Common.Interfaces;
-using Swashbuckle.AspNetCore.Swagger;
+//using Swashbuckle.AspNetCore.Swagger;
+using Microsoft.OpenApi.Models;
 using AutoMapper;
 using ContosoUniversity.Data.DbContexts;
+using Microsoft.Extensions.Hosting;
 
 namespace ContosoUniversity.Api
 {
     public class Startup
     {
         public IConfiguration Configuration { get; }
-        public IHostingEnvironment CurrentEnvironment { get; }
+        public IWebHostEnvironment CurrentEnvironment { get; }
 
-        public Startup(IHostingEnvironment env, IConfiguration config)
+        public Startup(IWebHostEnvironment env, IConfiguration config)
         {
             CurrentEnvironment = env;
             Configuration = config;
@@ -34,7 +36,7 @@ namespace ContosoUniversity.Api
                 .AddCustomizedMvc(CurrentEnvironment)
                 .AddSwaggerGen(c =>
                 {
-                    c.SwaggerDoc("v1", new Info { Title = "Contoso University Api", Version = "v1" });
+                    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Contoso University API", Version = "v1" });
                 });
 
             services.AddCustomizedApiAuthentication(Configuration);

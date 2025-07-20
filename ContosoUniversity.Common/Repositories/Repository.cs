@@ -8,67 +8,61 @@ using ContosoUniversity.Data.DbContexts;
 
 namespace ContosoUniversity.Data
 {
-    public class Repository<T, TContext> : IRepository<T> where T : BaseEntity where TContext : DbContext
+    public class Repository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly TContext context;
-        private DbSet<T> entities;
-        string errorMessage = string.Empty;
+        protected readonly DbContext _context;
+        protected readonly DbSet<T> _entities;
 
-        public Repository()
+        public Repository(DbContext context)
         {
-        }
-
-        public Repository(TContext context)
-        {
-            this.context = context;
-            entities = context.Set<T>();
+            _context = context;
+            _entities = context.Set<T>();
         }
 
         public IQueryable<T> Get(int id)
         {
-            return entities.Where(s => s.ID == id).AsQueryable<T>();
+            return _entities.Where(s => s.ID == id);
         }
 
         public IQueryable<T> GetAll()
         {
-            return entities.AsQueryable<T>();
+            return _entities;
         }
 
         public void Add(T entity)
         {
-            context.Add<T>(entity);
+            _entities.Add(entity);
         }
 
         public async Task AddAsync(T entity)
         {
-            await entities.AddAsync(entity);
+            await _entities.AddAsync(entity);
         }
 
         public void Delete(T entity)
         {
-            entities.Remove(entity);
+            _entities.Remove(entity);
         }
 
         public void Update(T entity, byte[] rowVersion)
         {
-            context.Entry(entity).Property("RowVersion").OriginalValue = rowVersion;
-            context.Update(entity);
+            _context.Entry(entity).Property("RowVersion").OriginalValue = rowVersion;
+            _entities.Update(entity);
         }
 
         public async Task SaveChangesAsync()
         {
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         }
-        
+
         public async Task<int> ExecuteSqlCommandAsync(string queryString)
         {
-            return await context.Database.ExecuteSqlCommandAsync(queryString);
+            return await _context.Database.ExecuteSqlRawAsync(queryString);
         }
 
         public DbConnection GetDbConnection()
         {
-            return context.Database.GetDbConnection();
+            return _context.Database.GetDbConnection();
         }
-
     }
 }

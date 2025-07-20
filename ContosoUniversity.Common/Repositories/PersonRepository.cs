@@ -7,9 +7,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace ContosoUniversity.Common.Repositories
 {
-    public class PersonRepository<T, TContext> : Repository<T, TContext>, IPersonRepository<T> where T : Person where TContext : DbContext
+    public class PersonRepository<T> : Repository<T>, IPersonRepository<T> where T : Person
     {
-        public PersonRepository(TContext context) : base(context)
+        public PersonRepository(DbContext context) : base(context)
         {
         }
 
@@ -22,7 +22,7 @@ namespace ContosoUniversity.Common.Repositories
         {
             if (entity == null)
             {
-                throw new ArgumentNullException("entity");
+                throw new ArgumentNullException(nameof(entity));
             }
         }
     }

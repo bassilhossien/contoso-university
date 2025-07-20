@@ -30,37 +30,37 @@ namespace ContosoUniversity.Common
 
         public virtual IRepository<Department> DepartmentRepository
         {
-            get => _departmentRepo = _departmentRepo ?? new Repository<Department, TContext>(_context);
+            get => _departmentRepo = _departmentRepo ?? new Repository<Department>(_context);
         }
 
         public virtual IPersonRepository<Instructor> InstructorRepository
         {
-            get => _instructorRepo = _instructorRepo ?? new PersonRepository<Instructor, TContext>(_context);
+            get => _instructorRepo = _instructorRepo ?? new PersonRepository<Instructor>(_context);
         }
 
         public virtual IPersonRepository<Student> StudentRepository
         {
-            get => _studentRepo = _studentRepo ?? new PersonRepository<Student, TContext>(_context);
+            get => _studentRepo = _studentRepo ?? new PersonRepository<Student>(_context);
         }
 
         public virtual IRepository<Course> CourseRepository
         {
-            get => _courseRepo = _courseRepo ?? new Repository<Course, TContext>(_context);
+            get => _courseRepo = _courseRepo ?? new Repository<Course>(_context);
         }
 
         public virtual IRepository<CourseAssignment> CourseAssignmentRepository
         {
-            get => _courseAssignmentRepo = _courseAssignmentRepo ?? new Repository<CourseAssignment, TContext>(_context);
+            get => _courseAssignmentRepo = _courseAssignmentRepo ?? new Repository<CourseAssignment>(_context);
         }
 
         public virtual IRepository<OfficeAssignment> OfficeAssignmentRepository
         {
-            get => _officeAssignmentRepo = _officeAssignmentRepo ?? new Repository<OfficeAssignment, TContext>(_context);
+            get => _officeAssignmentRepo = _officeAssignmentRepo ?? new Repository<OfficeAssignment>(_context);
         }
 
         public virtual IRepository<Enrollment> EnrollmentRepository
         {
-            get => _enrollmentRepo = _enrollmentRepo ?? new Repository<Enrollment, TContext>(_context);
+            get => _enrollmentRepo = _enrollmentRepo ?? new Repository<Enrollment>(_context);
         }
 
         public void Commit()

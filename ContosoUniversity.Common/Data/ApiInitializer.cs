@@ -11,12 +11,12 @@ namespace ContosoUniversity.Common.Data
         private readonly ApiContext _context;
         private readonly ILogger _logger;
         private readonly SampleData _data;
-        private readonly IHostingEnvironment _environment;
+        private readonly IWebHostEnvironment _environment;
 
         public ApiInitializer(ApiContext context, 
             ILoggerFactory loggerFactory,
             IOptions<SampleData> dataOptions,
-            IHostingEnvironment env)
+            IWebHostEnvironment env)
         {
             _context = context;
             _logger = loggerFactory.CreateLogger("ApiInitializer");

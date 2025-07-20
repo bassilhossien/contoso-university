@@ -15,6 +15,7 @@ using ContosoUniversity.Common.DTO;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.Extensions.Hosting;
 
 namespace ContosoUniversity.Common
 {
@@ -22,9 +23,9 @@ namespace ContosoUniversity.Common
     // http://odetocode.com/blogs/scott/archive/2016/08/30/keeping-a-clean-startup-cs-in-asp-net-core.aspx
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection AddCustomizedContext(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment env)
+        public static IServiceCollection AddCustomizedContext(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
-            if (env.IsEnvironment("Testing"))
+            if (env.EnvironmentName == "Testing")
             {
                 services.AddDbContext<ApplicationContext>(optionsBuilder => optionsBuilder.UseInMemoryDatabase("TestDb"));
                 services.AddDbContext<SecureApplicationContext>(optionsBuilder => optionsBuilder.UseInMemoryDatabase("TestDb"));
@@ -64,7 +65,7 @@ namespace ContosoUniversity.Common
             }
 
             services.AddScoped<UnitOfWork<ApplicationContext>, UnitOfWork<ApplicationContext>>();
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<,>));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
             services.Configure<SampleData>(configuration.GetSection("SampleData"));
 
@@ -72,9 +73,13 @@ namespace ContosoUniversity.Common
         }
 
 
-        public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IHostingEnvironment env)
+        public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IWebHostEnvironment env)
         {
-            services.AddMvc();
+            // services.AddMvc();
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;  // 👈 Add this line
+            });
+
 
             // if (env.IsProduction())
             // {
@@ -89,7 +94,7 @@ namespace ContosoUniversity.Common
 
         // identity 2.0
         // oauth - facebook, google
-        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IConfiguration configuration, IHostingEnvironment env)
+        public static IServiceCollection AddCustomizedIdentity(this IServiceCollection services, IConfiguration configuration, IWebHostEnvironment env)
         {
             // Add default identity options for ApplicationUser and IdentityRole
             var identity = services.AddIdentity<ApplicationUser, IdentityRole>();
@@ -113,7 +118,7 @@ namespace ContosoUniversity.Common
 
             // Admin account will be added to identity db when created.
             var administrator = configuration.GetSection("Administrator");
-            if (env.IsDevelopment() && administrator.Exists())
+            if (env.EnvironmentName == Environments.Development && administrator.Exists())
                 services.Configure<AdminIdentityOptions>(administrator);
 
             return services;

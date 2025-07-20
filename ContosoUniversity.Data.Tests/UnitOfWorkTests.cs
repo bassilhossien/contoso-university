@@ -36,7 +36,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.InstructorRepository;
 
-            Assert.IsType<PersonRepository<Instructor, ApplicationContext>>(result);
+            Assert.IsType<PersonRepository<Instructor>>(result);
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.StudentRepository;
 
-            Assert.IsType<PersonRepository<Student, ApplicationContext>>(result);
+            Assert.IsType<PersonRepository<Student>>(result);
         }
 
         [Fact]

@@ -64,7 +64,14 @@ namespace ContosoUniversity.Web.Controllers
             }
             else
             {
-                students = students.OrderBy(e => e.GetType().GetProperty(sortOrder).GetValue(e, null));
+                // students = students.OrderBy(e => e.GetType().GetProperty(sortOrder).GetValue(e, null));
+                students = sortOrder switch
+                {
+                    "name_desc" => students.OrderByDescending(s => s.LastName),
+                    "Date" => students.OrderBy(s => s.EnrollmentDate),
+                    "date_desc" => students.OrderByDescending(s => s.EnrollmentDate),
+                    _ => students.OrderBy(s => s.LastName),
+                };
             }
 
             int pageSize = 3;
