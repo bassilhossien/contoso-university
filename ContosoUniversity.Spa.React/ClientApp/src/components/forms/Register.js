@@ -47,6 +47,7 @@ export default class Register extends React.Component {
             case 'confirmPassword':
                 confirmPasswordValid = this.state.password === value;
                 fieldValidationErrors.confirmPassword = confirmPasswordValid ? '' : 'ConfirmPassword does not match password';
+                break;
             default:
                 break;
         }

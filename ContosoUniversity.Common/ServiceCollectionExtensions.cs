@@ -78,9 +78,9 @@ namespace ContosoUniversity.Common
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IWebHostEnvironment env)
         {
             // services.AddMvc();
-            // services.AddMvc(options => {
-            //     options.EnableEndpointRouting = false;  // 👈 Add this line
-            // });
+            services.AddMvc(options => {
+                options.EnableEndpointRouting = false;  // 👈 Add this line
+            });
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {
