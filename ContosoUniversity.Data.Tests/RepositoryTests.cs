@@ -11,7 +11,7 @@ namespace ContosoUniversity.Data.Tests
 {
     public class RepositoryTests
     {
-        private Repository<Department, ApplicationContext> _sut;
+        private Repository<Department> _sut;
 
         public RepositoryTests()
         {
@@ -19,7 +19,7 @@ namespace ContosoUniversity.Data.Tests
             builder.UseInMemoryDatabase("TestDb");
 
             var context = new ApplicationContext(builder.Options);
-            _sut = new Repository<Department, ApplicationContext>(context);
+            _sut = new Repository<Department>(context);
         }
 
         [Fact]

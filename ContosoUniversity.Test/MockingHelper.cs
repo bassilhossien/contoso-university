@@ -6,6 +6,8 @@ using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
+
 
 namespace ContosoUniversity.Tests
 {
@@ -15,11 +17,17 @@ namespace ContosoUniversity.Tests
             where TEntity : class
         {
             var mockSet = new Mock<DbSet<TEntity>>();
+
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.Provider).Returns(new TestAsyncQueryProvider<TEntity>(data.Provider));
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.Expression).Returns(data.Expression);
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.ElementType).Returns(data.ElementType);
             mockSet.As<IQueryable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(() => data.GetEnumerator());
-            mockSet.As<IAsyncEnumerable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(new TestAsyncEnumerator<TEntity>(data.GetEnumerator()));
+
+            //mockSet.As<IAsyncEnumerable<TEntity>>().Setup(m => m.GetEnumerator()).Returns(new TestAsyncEnumerator<TEntity>(data.GetEnumerator()));
+            mockSet.As<IAsyncEnumerable<TEntity>>()
+                .Setup(m => m.GetAsyncEnumerator(It.IsAny<CancellationToken>()))
+                .Returns((System.Threading.CancellationToken ct) => new TestAsyncEnumerator<TEntity>(data.GetEnumerator()));
+
             return mockSet;
         }
 

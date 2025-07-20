@@ -16,6 +16,8 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Hosting;
+using System.Text.Json;
+
 
 namespace ContosoUniversity.Common
 {
@@ -76,9 +78,15 @@ namespace ContosoUniversity.Common
         public static IServiceCollection AddCustomizedMvc(this IServiceCollection services, IWebHostEnvironment env)
         {
             // services.AddMvc();
-            services.AddMvc(options => {
-                options.EnableEndpointRouting = false;  // 👈 Add this line
-            });
+            // services.AddMvc(options => {
+            //     options.EnableEndpointRouting = false;  // 👈 Add this line
+            // });
+            services.AddControllers()
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+                });
+
 
 
             // if (env.IsProduction())

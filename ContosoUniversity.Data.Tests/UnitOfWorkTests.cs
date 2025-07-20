@@ -27,7 +27,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.DepartmentRepository;
 
-            Assert.IsType<Repository<Department, ApplicationContext>>(result);
+            Assert.IsType<Repository<Department>>(result);
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.CourseRepository;
 
-            Assert.IsType<Repository<Course, ApplicationContext>>(result);
+            Assert.IsType<Repository<Course>>(result);
         }
 
         [Fact]
@@ -63,7 +63,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.CourseAssignmentRepository;
 
-            Assert.IsType<Repository<CourseAssignment, ApplicationContext>>(result);
+            Assert.IsType<Repository<CourseAssignment>>(result);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.OfficeAssignmentRepository;
 
-            Assert.IsType<Repository<OfficeAssignment, ApplicationContext>>(result);
+            Assert.IsType<Repository<OfficeAssignment>>(result);
         }
 
         [Fact]
@@ -81,7 +81,7 @@ namespace ContosoUniversity.Data.Tests
 
             var result = _sut.EnrollmentRepository;
 
-            Assert.IsType<Repository<Enrollment, ApplicationContext>>(result);
+            Assert.IsType<Repository<Enrollment>>(result);
         }
 
         [Fact]
