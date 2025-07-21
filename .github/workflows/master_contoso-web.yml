@@ -28,13 +28,9 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build ContosoUniversity.Web/ContosoUniversity.Web.csproj --configuration Release --no-restore
-        env:
-          NODE_OPTIONS: "--openssl-legacy-provider"
 
       - name: dotnet publish
         run: dotnet publish ContosoUniversity.Web/ContosoUniversity.Web.csproj --configuration Release --output ./web-publish
-        env:
-          NODE_OPTIONS: "--openssl-legacy-provider"
 
       - name: List output folder
         run: ls -R ./web-publish
