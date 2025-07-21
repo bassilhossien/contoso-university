@@ -32,10 +32,13 @@ jobs:
       - name: dotnet publish
         run: dotnet publish ContosoUniversity.Api/ContosoUniversity.Api.csproj --configuration Release --output ./publish  
 
+      - name: List output folder
+        run: ls -R ./publish
+
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-app
+          name: api-publish
           path: ./publish
 
   deploy:
@@ -44,7 +47,7 @@ jobs:
     
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v3
         with:
           name: api-publish
           path: ./publish
