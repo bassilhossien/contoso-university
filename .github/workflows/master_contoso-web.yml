@@ -24,15 +24,15 @@ jobs:
           dotnet-version: '8.x'
 
       - name: Restore dependencies
-        run: dotnet restore ContosoUniversity.Api/ContosoUniversity.Web.csproj
+        run: dotnet restore ContosoUniversity.Web/ContosoUniversity.Web.csproj
 
       - name: Build with dotnet
-        run: dotnet build ContosoUniversity.Api/ContosoUniversity.Web.csproj --configuration Release --no-restore
+        run: dotnet build ContosoUniversity.Web/ContosoUniversity.Web.csproj --configuration Release --no-restore
         env:
           NODE_OPTIONS: "--openssl-legacy-provider"
 
       - name: dotnet publish
-        run: dotnet publish ContosoUniversity.Api/ContosoUniversity.Web.csproj --configuration Release --output ./web-publish
+        run: dotnet publish ContosoUniversity.Web/ContosoUniversity.Web.csproj --configuration Release --output ./web-publish
         env:
           NODE_OPTIONS: "--openssl-legacy-provider"
 
