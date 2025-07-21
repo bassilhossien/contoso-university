@@ -23,11 +23,14 @@ jobs:
         with:
           dotnet-version: '8.x'
 
+      - name: Restore dependencies
+        run: dotnet restore ContosoUniversity.Api/ContosoUniversity.Api.csproj
+
       - name: Build with dotnet
-        run: dotnet build --configuration Release
+        run: dotnet build ContosoUniversity.Api/ContosoUniversity.Api.csproj --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish ContosoUniversity.Api/ContosoUniversity.Api.csproj -c Release -o ./publish        
+        run: dotnet publish ContosoUniversity.Api/ContosoUniversity.Api.csproj --configuration Release --output ./publish  
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
@@ -43,7 +46,8 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-app
+          name: api-publish
+          path: ./publish
       
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
@@ -51,5 +55,5 @@ jobs:
         with:
           app-name: 'contoso-api'
           slot-name: 'Production'
-          package: ./publish
+          package: './publish'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_48DADFF254154CAB83236BB7E6B21C53 }}
